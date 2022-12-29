@@ -10,9 +10,9 @@
 // int digit1 = 21;
 
 int DELAY = 700;
-int DIGIT_DELAY = 5;
+int DIGIT_DELAY = 3;
 
-int count = 9123;
+int count = 9523;
 int clock_ms = 0;
 
 int digit3 = 21;
@@ -21,9 +21,9 @@ int digit2 = 0;
 int digit0 = 22;
 int digit[] = {digit0,digit1,digit2,digit3};
 // int digit4 = 34;
-int led = 2;
+// int led = 2;
 int segA = 19;
-int segB = 15;
+int segB = 5;
 int segC = 27;
 int segD = 25;
 int segE = 32;
@@ -73,15 +73,15 @@ void setup()
   pinMode(digit1, OUTPUT);
   pinMode(digit2, OUTPUT);
   pinMode(digit3, OUTPUT);
-  pinMode(led, OUTPUT);
+  // pinMode(led, OUTPUT);
   for (int i = 0; i<7; i++){ pinMode(seg[i], OUTPUT);};
-  for (int i = 0; i<7; i++){ digitalWrite(seg[i], exe[i]);};
+  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], LOW);};
   digitalWrite(digit0, LOW);
   digitalWrite(digit1, LOW);
   digitalWrite(digit2, LOW);
   digitalWrite(digit3, LOW);
   // Serial monitor setup
-  Serial.begin(115200);
+  // Serial.begin(115200);
 }
 
 
@@ -108,28 +108,38 @@ Decompo division(int n, Decompo tab){
   return tab;
   }
 
-int afficher(int n, Decompo tab, int clock){
-tab = division(n,tab);
+int affichage_v2(int nombre, int clock){
 
-//update the display
-for (int i =0; i<=tab.nb_elem ; i++){ //for each digit
-  for (int j = 0; j<7; j++){
-      digitalWrite(seg[j], numbers[tab.m[i]][j]); //light the correct segment
-     };
-  digitalWrite(digit[i], HIGH); // display the number
-  delay(DIGIT_DELAY);
-  clock += DIGIT_DELAY;
-  digitalWrite(digit[i], LOW);
+  // print first segment
+  for(int i; i<4; i++){
+    digitalWrite(digit[i], HIGH); // display the first number
+    for (int j = 0; j<7; j++){
+          digitalWrite(seg[j], numbers[nombre % 10][j]); //light the correct segment
+        };
+    delay(DIGIT_DELAY);
+    digitalWrite(digit[i], LOW);
+    nombre = nombre / 10 ;
+  }
+  return (DIGIT_DELAY * 4);
+
 }
-// Serial.print(" m[0]= ");
-// Serial.print(tab.m[0]);
-// Serial.print(" m[1]= ");
-// Serial.print(tab.m[1]);
-// Serial.print(" m[2]= ");
-// Serial.print(tab.m[2]);
-// Serial.print(" m[3]= ");
-// Serial.println(tab.m[3]);
-return clock;
+
+
+int afficher(int n, Decompo tab, int clock){
+  // tab = division(n,tab);
+
+  //update the display
+  for (int i =0; i<=tab.nb_elem ; i++){ //for each digit
+    for (int j = 0; j<7; j++){
+        digitalWrite(seg[j], numbers[tab.m[i]][j]); //light the correct segment
+      };
+    digitalWrite(digit[i], HIGH); // display the number
+    delay(DIGIT_DELAY);
+    clock += DIGIT_DELAY;
+    digitalWrite(digit[i], LOW);
+  }
+
+  return clock;
 
 }
 
@@ -137,35 +147,16 @@ return clock;
 
 void loop()
 {
-  while(clock_ms <= 10000){ 
-    clock_ms += afficher(count,tab,clock_ms);
+  tab = division(count,tab);
+  while(clock_ms <= 1000){
+    // clock_ms = afficher(count,tab,clock_ms);
+    clock_ms = affichage_v2(count,clock_ms);
+    // char buffer[40];
+    // sprintf(buffer, "clock_ms=%d", clock_ms);
+    // Serial.println(buffer);
   }
   count += 1;
   clock_ms = 0;
 
 
-  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], one[i]);};
-  // delay(DELAY);
-  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], two[i]);};
-  // delay(DELAY);
-  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], three[i]);};
-  // delay(DELAY);
-  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], four[i]);};
-  // delay(DELAY);
-  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], five[i]);};
-  // delay(DELAY);
-  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], six[i]);};
-  // delay(DELAY);
-  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], seven[i]);};
-  // delay(DELAY);
-  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], eight[i]);};
-  // delay(DELAY);
-  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], nine[i]);};
-  // delay(DELAY);
-  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], zero[i]);};
-  // delay(DELAY);
-  // for (int i = 0; i<7; i++){ digitalWrite(seg[i], exe[i]);};
-  // Serial.println("un_tour");
-  // delay(DELAY);
-   
 }
