@@ -25,6 +25,10 @@ const int laser_interval_ms = 333;
 const int pot_pin =34;
 int potentiometer_value =120;
 
+int photores_sensor_pin = 36;
+int photores_default_pin = 39;
+int photores_default_pin = 13;
+
 // Define the PWM necessary values
 const int freq = 5000; 
 const int pwm_channel_0 = 0; 
@@ -143,7 +147,6 @@ Decompo division(int n, Decompo tab){
   }
 
 void affichage_v2(int nombre, int clock){
-
   // print first segment
   for(int i; i<4; i++){
     // digitalWrite(digit[i], HIGH); // display the first number
