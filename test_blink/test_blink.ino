@@ -129,5 +129,7 @@ void loop()
   for (int i = 0; i<7; i++){ digitalWrite(LEDs[i], exe[i]);};
   Serial.println("un_tour");
   delay(DELAY);
+
+  // FIXME : ONly increment when photores detect `un front montant` !
    
 }
